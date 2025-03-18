@@ -1,21 +1,26 @@
 package com.example.proyecto.spring.models;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Aprendiz {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_aprendiz")
-    private long id;
+    private Long id;
+    private String nombre;
+    private String telefono;
 
-    public long getId() {
+    // Getters y setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,13 +39,4 @@ public class Aprendiz {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    @Column (name="nombre_aprendiz")
-    @Getter
-    @Setter
-    private String nombre;
-
-    @Column(name = "telefono_aprendiz")
-    private String telefono;
-
 }

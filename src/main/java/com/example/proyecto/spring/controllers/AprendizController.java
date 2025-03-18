@@ -1,52 +1,47 @@
 package com.example.proyecto.spring.controllers;
 
-import com.example.proyecto.spring.repository.Repository;
+import com.example.proyecto.spring.models.Aprendiz;
+import com.example.proyecto.spring.services.AprendizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.example.proyecto.spring.models.Aprendiz;
+
 
 
 import java.util.List;
 
+
+
+
 @RestController
+@RequestMapping
 public class AprendizController {
 
     @Autowired
-    private Repository repo;
+    private AprendizService aprendizService;
 
-    @GetMapping()
-    public String index(){
-        return "Conectado";
+
+    @GetMapping("/todos")
+    public List<Aprendiz> getAllAprendices() {
+        return aprendizService.getAllAprendices();
     }
 
-    @GetMapping("aprendices")
-    public List<Aprendiz> getAprendices(){
-        return repo.findAll();
+    @GetMapping("/traer/{id}")
+    public Aprendiz getAprendizById(@PathVariable Long id) {
+        return aprendizService.getAprendizById(id);
     }
 
-
-    @PostMapping("grabar")
-    public String save(@RequestBody Aprendiz aprendiz){
-        repo.save(aprendiz);
-        return "Grabado";
+    @PostMapping("/crear")
+    public Aprendiz createAprendiz(@RequestBody Aprendiz aprendiz) {
+        return aprendizService.createAprendiz(aprendiz);
     }
 
-    @PutMapping("editar/{id}")
-    public String update (@PathVariable Long id,@RequestBody Aprendiz aprendiz){
-        Aprendiz updateAprendiz = repo.findById(id).get();
-        updateAprendiz.setNombre(aprendiz.getNombre());
-        updateAprendiz.setTelefono(aprendiz.getTelefono());
-        repo.save(updateAprendiz);
-        return "Aprendiz editado correctamente";
+    @PutMapping("/editar/{id}")
+    public Aprendiz updateAprendiz(@PathVariable Long id, @RequestBody Aprendiz aprendiz) {
+        return aprendizService.updateAprendiz(id, aprendiz);
     }
-    
+
     @DeleteMapping("eliminar/{id}")
-    public String delete (@PathVariable Long id){
-        Aprendiz deleteAprendiz = repo.findById(id).get();
-        repo.delete(deleteAprendiz);
-        return "Aprendiz eliminado correctamente";
+    public void deleteAprendiz(@PathVariable Long id) {
+        aprendizService.deleteAprendiz(id);
     }
-
-
-
 }
